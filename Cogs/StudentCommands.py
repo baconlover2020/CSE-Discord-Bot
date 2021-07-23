@@ -5,6 +5,8 @@ from random import randint
 
 import discord
 from discord.ext import commands
+from discord_components import component
+from discord_components.button import Button, ButtonStyle
 from utils import *
 
 from diceParser import parse
@@ -185,16 +187,16 @@ class StudentCommands(commands.Cog):
         else:
             reactions = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟']
 
-        # Write out the title and description
-        description = []
-        for i, option in enumerate(options):
-            description += '\n {} {}'.format(reactions[i], option)
-        embed = discord.Embed(title=question, description=''.join(description))
+        # Write out the title
+        embed = discord.Embed(title=question)
+        await ctx.send(embed = embed)
 
-        # React to the message with between 2-10 reactions
-        react_message = await ctx.send(embed=embed)
-        for reaction in reactions[:len(options)]:
-            await react_message.add_reaction(reaction)
+        # Generate and send Buttons
+        buttons = []
+        for i, option in enumerate(options):
+            buttons.append(Button(style=ButtonStyle.gray, label=option, emoji=reactions[i]))
+        
+        await ctx.send('\u200c', components=buttons)
 
         # Logging
         await log(self.bot, f'{ctx.author} started a poll in #{ctx.channel}:')
