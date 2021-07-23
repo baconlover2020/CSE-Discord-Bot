@@ -156,6 +156,52 @@ class StudentCommands(commands.Cog):
         await log(self.bot, question, False)
         for option in options:
             await log(self.bot, f'{option}', False)
+    
+
+    @commands.command()
+    async def pollbuttons(self, ctx, question, *options: str):
+        """Create a poll with buttons that users can vote on.
+
+        Args:
+            question (str): A question that the poll taker is asking. Should be encapsulated by a set of quotation marks.
+            options (tuple (str)): A set of options for users to choose. Each option should be encapsulated by a set of quotation marks.
+                May have multiple entries
+
+        Outputs:
+            Message stating the question of the poll with answers bound to numeric emojis. Reacts to the message with those emojis
+        """
+
+        # Delete sender's message
+        await ctx.channel.purge(limit=1)
+
+        # Need between 2 and 10 options for a poll
+        if not (1 < len(options) <= 10):
+            await ctx.send('Enter between 2 and 10 answers')
+            return
+
+        # Define reactions
+        if len(options) == 2 and options[0] == 'yes' and options[1] == 'no':
+            reactions = ['✅', '❌']
+        else:
+            reactions = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟']
+
+        # Write out the title and description
+        description = []
+        for i, option in enumerate(options):
+            description += '\n {} {}'.format(reactions[i], option)
+        embed = discord.Embed(title=question, description=''.join(description))
+
+        # React to the message with between 2-10 reactions
+        react_message = await ctx.send(embed=embed)
+        for reaction in reactions[:len(options)]:
+            await react_message.add_reaction(reaction)
+
+        # Logging
+        await log(self.bot, f'{ctx.author} started a poll in #{ctx.channel}:')
+        await log(self.bot, question, False)
+        for option in options:
+            await log(self.bot, f'{option}', False)
+
 
     @commands.command()
     async def roll(self, ctx, *options):
