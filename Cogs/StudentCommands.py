@@ -6,7 +6,7 @@ from random import randint
 import discord
 from discord.ext import commands
 from discord_components import component
-from discord_components.button import Button, ButtonStyle
+from discord_components import Button, ButtonStyle, InteractionType
 from utils import *
 
 from diceParser import parse
@@ -201,6 +201,25 @@ class StudentCommands(commands.Cog):
         await log(self.bot, question, False)
         for option in options:
             await log(self.bot, f'{option}', False)
+    
+
+    # In order to catch the response to buttons, do I need the message id?
+    # That seems to be the case for Ryan's implmentation of role menus, but role
+    # menus have a set number of messages they'll occupy. Polls could last forever
+    # and there isn't a limit to how many can be created.
+    #
+    # For Button Polls:
+    #   Time Limit?
+    #   Poll Number Limit?
+    #   Wait for component implementation in discord.py?
+    #       The example I saw for tic tac toe seemed much cleaner.
+    #   Talk to Ryan about how the work around for components works?
+
+    # Do I need the following?
+    # @commands.Cog.listener()
+    # async def on_poll_response(self, res):
+        
+    #     await res.respond("Hello")
 
 
     @commands.command()
