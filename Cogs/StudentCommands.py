@@ -187,16 +187,14 @@ class StudentCommands(commands.Cog):
         else:
             reactions = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟']
 
-        # Write out the title
-        embed = discord.Embed(title=question)
-        await ctx.send(embed = embed)
-
-        # Generate and send Buttons
+        # Generate Buttons
         buttons = []
         for i, option in enumerate(options):
             buttons.append(Button(style=ButtonStyle.gray, label=option, emoji=reactions[i]))
         
-        await ctx.send('\u200c', components=buttons)
+        # Send title and buttons
+        embed = discord.Embed(title=question)
+        await ctx.send('\u200c', components=buttons, embed=embed)
 
         # Logging
         await log(self.bot, f'{ctx.author} started a poll in #{ctx.channel}:')
