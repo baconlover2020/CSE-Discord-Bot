@@ -156,7 +156,10 @@ class ServerManagement(commands.Cog):
         destroy_roles = []
         message = '__**DESTROY FOLLOWING ROLES**__\n'
         for role in ctx.guild.roles:
-            if role.name in destroy_role_names:
+            if role.name in destroy_role_names == "acm":
+                await ctx.send("Found acm")
+                break
+            elif role.name in destroy_role_names:
                 message += f'{role.mention}\n'
                 destroy_roles.append(role)
         await ctx.send(message)
