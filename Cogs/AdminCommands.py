@@ -177,7 +177,7 @@ class AdminCommands(commands.Cog):
         
         history_file = open("/tmp/history.txt", "w")
         channel = ctx.channel
-      
+        
         # gets 250 most recent messages posted less than 4 months ago
         messages = await channel.history(limit=250, after=that_day, oldest_first=False).flatten()
 

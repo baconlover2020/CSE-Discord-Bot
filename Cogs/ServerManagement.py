@@ -66,9 +66,12 @@ class ServerManagement(commands.Cog):
 
         # Print list of channels to build
         message = '__**CREATE FOLLOWING CATEGORIES**__\n'
-        for _, row in roles_csvs.iterrows():
-            if type(row['create_channels']) != float:
-                message += f'{row["text"]}\n'
+        #for _, row in roles_csvs.iterrows():
+        #    if type(row['create_channels']) != float:
+        #        message += f'{row["text"]}\n'
+        #await ctx.send(message)
+        class_names = roles_csvs["text"].to_list()
+        message+= '\n'.join([cn for cn in class_names])
         await ctx.send(message)
 
         # Get confirmation before building channels
